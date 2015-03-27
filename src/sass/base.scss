@@ -7,7 +7,7 @@
     border-collapse: separate;
     width: 100%;
 
-    .share-button {
+    .share-button, .share-link {
         display: table-cell;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -94,6 +94,26 @@
         }
     }
 
+    .share-link-label {
+        color: #666;
+        display: inline-block;
+        font-size: 11px;
+        line-height: 21px;
+        margin-right: 5px;
+        margin-left: 5px;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .share-link-input {
+        @include border-radius(3px);
+        border: 1px solid #dcdcdc;
+        color: #333;
+        height: 34px;
+        padding-left: 5px;
+        width: 90px;
+    }
+
     .svg-size {
         width: 20px;
         height: 20px;
@@ -112,7 +132,6 @@
         }
     }
 }
-
 
 .share-facebook .svg-size .share-icon {
     max-width: 16px;

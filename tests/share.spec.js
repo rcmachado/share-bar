@@ -387,7 +387,7 @@ describe('ShareBar - Methods Test Case', function () {
             result = this.newBar.getButtonsSize(200, 6);
 
             expect(result).toEqual(
-                ['', '', '', '', '', '']
+                ['', '', '', '', '', '', '']
             );
         });
 
@@ -526,6 +526,20 @@ describe('ShareBar - Methods Test Case', function () {
         it('should set href with url', function () {
             this.newBar.createButton(this.el, 'test', '', 'urltest');
             expect(this.el.querySelector('.share-test a').getAttribute("href")).toEqual('urltest');
+        });
+    });
+
+    describe('createInput', function () {
+        it('should create input', function () {
+            this.newBar.createInput(this.el, 'link', 'a-test', 'example.com');
+            expect(this.el.querySelector('.share-input input')).not.toBe(null);
+        });
+
+        it('should call onCreateButton callback', function () {
+            var spy = spyOn(this.newBar, 'onCreateButton'),
+                button = this.newBar.createInput(this.el, 'link', 'a-test-class', 'example.com');
+
+            expect(spy).toHaveBeenCalledWith(button);
         });
     });
 
@@ -699,6 +713,23 @@ describe('ShareBar - Methods Test Case', function () {
             this.newBar.createEmailButton(this.el);
             expect(this.el.querySelector('.share-email a').className).toEqual('');
         });
+    });
+
+    describe('createLinkInput', function () {
+        it('should create link input', function () {
+            this.newBar.createLinkInput(this.el);
+            expect(this.el.querySelector('.share-input.share-link input[type="url"]')).not.toBe(null);
+        });
+
+        it('should set input value with metadata of container', function () {
+            var input = '';
+            this.newBar.createLinkInput(this.el);
+
+            input = this.el.querySelector('.share-link input');
+            expect(input.value).toEqual('http://globo.com?utm_source=link&utm_medium=share-bar-desktop&utm_campaign=share-bar');
+        });
+
+
     });
 
     describe('createSVG', function () {

@@ -95,6 +95,7 @@ function ShareBar(options) {
                         'pinterest',
                         'email'
                     ],
+                    showInputLink: false,
                     theme: 'natural',
                     buttonWidth: BUTTON_WIDTH,
                     buttonFullWidth: BUTTON_FULL_WIDTH,
@@ -160,16 +161,26 @@ function ShareBar(options) {
             var theme = ' share-theme-',
                 i = 0,
                 count = 0,
+                totalItems = 0,
                 buttonClasses = [];
 
             networks = this.validateNetworks(networks || this.networks);
             networks = networks.slice(0, this.maxSocialButtons);
 
             count = networks.length;
-            buttonClasses = this.getButtonsSize(element.offsetWidth, count);
+            if (this.showInputLink) {
+                totalItems = count + 1;
+            } else {
+                totalItems = count;
+            }
+            buttonClasses = this.getButtonsSize(element.offsetWidth, totalItems);
 
             for (i; i < count; i++) {
                 networks[i].call(this, element, buttonClasses[i]);
+            }
+
+            if (this.showInputLink) {
+                this.createLinkInput(element, buttonClasses[count]);
             }
 
             theme += element.getAttribute('data-theme') || this.theme;
@@ -193,7 +204,7 @@ function ShareBar(options) {
             }
 
             if (isSmallScreen) {
-                return ['', '', '', '', '', ''];
+                return ['', '', '', '', '', '', ''];
             }
 
             return this.getButtonsFull(
@@ -318,6 +329,23 @@ function ShareBar(options) {
                 '<a class="' + classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
                 this.createContentButton(socialNetworkClass, socialNetworkTitle),
                 '</a>'
+            ].join('');
+
+            container.appendChild(shareContainer);
+            this.onCreateButton(shareContainer);
+
+            return shareContainer;
+        },
+
+        createInput: function createInput(container, socialNetworkClass, className, url) {
+            var shareContainer = document.createElement('div');
+            shareContainer.className = 'share-input share-' + socialNetworkClass + className;
+
+            url = url.replace('#source#', socialNetworkClass);
+
+            shareContainer.innerHTML = [
+                '<label class="share-link-label">Link</label>',
+                '<input type="url" value="', url, '" class="share-link-input" title="Link para compartilhar" readonly>'
             ].join('');
 
             container.appendChild(shareContainer);
@@ -480,6 +508,21 @@ function ShareBar(options) {
                 'mailto:?subject=' + data.title + '&amp;body=' + data.url,
                 'e-mail',
                 true
+            );
+        },
+
+        createLinkInput: function createLinkInput(container, buttonClass) {
+            // cria o textbox com o link
+            // ter um createInput similar ao createButton
+            // mas que retorna um input com o link
+            var data = this.getMetadataFromElement(container);
+
+            this.createInput(
+                container,
+                'link',
+                buttonClass || '',
+                window.decodeURIComponent(data.url),
+                'link'
             );
         }
     };
