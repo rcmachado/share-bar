@@ -185,6 +185,17 @@ Default:
 Ps: Uma nota importante com relação ao ícone do whatsapp. Seu aparecimento se dá em devices com telas menores que 768px e que possuem touch(seja o sistema operacional Android ou Ios).
 ```
 
+**showInputLink**
+
+Mostra um input com a URL para que o usuário possa copiá-la. Por
+questões de compatibilidade, o valor padrão é `false`.
+
+```
+<script>
+    new ShareBar({showInputLink: true});
+</script>
+```
+
 **context**
 
 Permite alterar o contexto de renderização da barra, essa informação é enviada via parâmetro utm_medium. Essa informação pode ser usada caso haja diferentes templates onde a barra é renderizada e existe a necessidade de filtrar no google analytics visitas baseada nessa informação de contexto.
